@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name" >Flibuster</string>
     <string name="Download">Download</string>
+    <string name="title">Title</string>
+    <string name="first_name">First Name</string>
+    <string name="search">Search</string>
+    <string name="booklist">BookList</string>
 </resources>

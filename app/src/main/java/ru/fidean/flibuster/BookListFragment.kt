@@ -2,23 +2,24 @@ package ru.fidean.flibuster
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.book_fragment.*
 import kotlinx.android.synthetic.main.book_list_fragment.*
 
+private const val TAG = "BookListFragmentTAG"
+
 class BookListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = BookListFragment()
-    }
-
     private lateinit var viewModel: BookListViewModel
+    private val args: BookListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +34,20 @@ class BookListFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 is BookListState.LoadingState -> {
-                    viewModel.parse("", "", "", "", "", "", "", "", "", "", "")
+                    Log.d(TAG,args.title)
+                    viewModel.parse(
+                        args.title,
+                        args.ganre,
+                        args.lastName,
+                        args.firstName,
+                        args.midleName,
+                        args.minSize,
+                        args.maxSize,
+                        args.form,
+                        args.minYear,
+                        args.maxYear,
+                        args.sort
+                    )
                 }
                 is BookListState.ShowState -> {
                     bookListView.layoutManager = LinearLayoutManager(requireContext())

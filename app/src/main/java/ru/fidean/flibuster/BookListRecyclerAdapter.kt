@@ -1,6 +1,7 @@
 package ru.fidean.flibuster
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 
-class BookListRecyclerAdapter(var list: List<Book>,var fragment: BookListFragment) :
+private const val TAG = "BookListRecyclerAdapterTAG"
+
+class BookListRecyclerAdapter(var list: List<Book>, var fragment: BookListFragment) :
     RecyclerView.Adapter<BookListRecyclerAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val autor: TextView
@@ -34,9 +37,11 @@ class BookListRecyclerAdapter(var list: List<Book>,var fragment: BookListFragmen
         holder.title.text = list[position].title
         holder.autor.text = list[position].autor
         holder.series.text = list[position].series
-        val bundle = bundleOf("BookID" to list[position].id)
         holder.itemView.setOnClickListener {
-            findNavController(fragment).navigate(R.id.action_bookListFragment_to_bookFragment, bundle)
+            Log.d(TAG,list[position].id.toString())
+            val action =
+                BookListFragmentDirections.actionBookListFragmentToBookFragment(list[position].id)
+            findNavController(fragment).navigate(action)
         }
     }
 

@@ -27,7 +27,10 @@ class BookListViewModel : ViewModel() {
 
     private fun parseBook(book: Element): Book {
         var title = book.select("a[href^=/b/]").first().text()
-        var autor = book.select("a[href^=/a/]").last().text()
+        var autor = ""
+        if (book.select("a[href^=/a/]").last() != null) {
+            autor = book.select("a[href^=/a/]").last().text()
+        }
         var id = book.select("a[href^=/b/]").attr("href")
         id = id.subSequence(3, id.length).toString()
         var series = book.select("a[href^=/s/] > span").text()

@@ -11,7 +11,7 @@
         android:label="book_fragment"
         tools:layout="@layout/book_fragment" >
         <argument
-            android:name="BookID"
+            android:name="bookID"
             app:argType="integer" />
     </fragment>
     <fragment
@@ -22,5 +22,61 @@
         <action
             android:id="@+id/action_bookListFragment_to_bookFragment"
             app:destination="@id/bookFragment" />
+        <action
+            android:id="@+id/action_bookListFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="firstName"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="lastName"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="midleName"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="ganre"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="minSize"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="maxSize"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="minYear"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="maxYear"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="sort"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="form"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ru.fidean.flibuster.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_bookListFragment"
+            app:destination="@id/bookListFragment" />
     </fragment>
 </navigation>

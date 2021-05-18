@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.book_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,23 +35,24 @@ class BookFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val args: BookFragmentArgs by navArgs()
         viewModel = ViewModelProvider(this).get(BookViewModel::class.java)
         downloadButton.setOnClickListener {
             val downloadmanager: DownloadManager =
                 requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val uri: Uri =
-                Uri.parse("http://flibusta.is/b/616608/fb2/")
+                Uri.parse("http://flibusta.site/b/${viewModel.book.value!!.id}/fb2/")
             val request = DownloadManager.Request(uri)
-            request.setTitle("My File")
+            request.setTitle(viewModel.book.value!!.title)
             request.setDescription("Downloading")
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            downloadmanager.enqueue(request)
+            var downloadID = downloadmanager.enqueue(request)
         }
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 is BookState.LoadingState -> {
-
-                    viewModel.parse(requireArguments().getInt("BookID"))
+                    Log.d(TAG, arguments!!.getInt("bookID").toString())
+                    viewModel.parse(arguments!!.getInt("bookID"))
                     progressBar.visibility = View.VISIBLE
                     autorText.visibility = View.INVISIBLE
                     titleText.visibility = View.INVISIBLE

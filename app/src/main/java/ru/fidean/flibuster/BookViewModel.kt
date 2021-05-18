@@ -30,7 +30,6 @@ class BookViewModel : ViewModel() {
                 Log.d(TAG,bookID.toString())
                 val doc: Document = Jsoup.connect("http://flibusta.site/b/${bookID}/").get()
                 var title = doc.select("#main > h1").text()
-                title = title.subSequence(0, title.length - 7).toString()
                 val autor = doc.select("#main > a:nth-child(5)").text()
                 val anotation = doc.select("#main > p").text()
                 val tempBook = Book(bookID, title, autor, anotation,"")
