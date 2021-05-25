@@ -1,4 +1,4 @@
-package ru.fidean.flibuster
+package ru.fidean.flibuster.ViewModels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

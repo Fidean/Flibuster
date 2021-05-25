@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:id="@+id/bookListFragment"
-    android:title="@string/booklist"/>
-    <item android:id="@+id/searchFragment"
-        android:title="@string/search"/>
+    <item
+        android:id="@+id/bookListFragment"
+        android:title="@string/booklist" />
+    <item
+        android:id="@+id/searchFragment"
+        android:title="@string/search" />
+    <item android:id="@+id/loginFragment"
+        android:title="@string/login"/>
 </menu>

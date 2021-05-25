@@ -1,6 +1,5 @@
-package ru.fidean.flibuster
+package ru.fidean.flibuster.ViewModels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -9,7 +8,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import org.jsoup.select.Elements
+import ru.fidean.flibuster.Book
 import java.io.IOException
 
 private const val TAG = "BookListViewModelTAG"
@@ -25,7 +24,7 @@ class BookListViewModel : ViewModel() {
     var state = MutableLiveData<BookListState>().apply { postValue(BookListState.LoadingState) }
     var bookList = MutableLiveData<List<Book>>()
 
-    private fun parseBook(book: Element): Book {
+    private fun parseBook(book: Element, genres: List<String>): Book {
         var title = book.select("a[href^=/b/]").first().text()
         var autor = ""
         if (book.select("a[href^=/a/]").last() != null) {
@@ -34,7 +33,7 @@ class BookListViewModel : ViewModel() {
         var id = book.select("a[href^=/b/]").attr("href")
         id = id.subSequence(3, id.length).toString()
         var series = book.select("a[href^=/s/] > span").text()
-        return Book(id.toInt(), title, autor, "", series)
+        return Book(id.toInt(), title, autor, "", series, null, genres)
     }
 
     fun parse(
@@ -67,17 +66,25 @@ class BookListViewModel : ViewModel() {
             CoroutineScope(Dispatchers.IO).launch {
                 var bookListT: MutableList<Book> = mutableListOf()
                 val doc: Document =
-                    Jsoup.connect("http://flibusta.site/makebooklist?ab=ab1&sort=${sort}&t=${title}&g=${ganre}&ln=${lastName}&fn=${firstName}&mn=${midleName}&s1=${minSize}&s2=${maxSize}&e=${form}&lng=&issueYearMin=${minYear}&issueYearMax=${maxYear}&/")
+                    Jsoup.connect("https://flibusta.site/makebooklist?ab=ab1&sort=${sort}&t=${title}&g=${ganre}&ln=${lastName}&fn=${firstName}&mn=${midleName}&s1=${minSize}&s2=${maxSize}&e=${form}&lng=&issueYearMin=${minYear}&issueYearMax=${maxYear}&/")
                         .get()
                 var books = doc.select("body > form > div")
+                var genreList = mutableListOf<String>()
                 for (book in books) {
-                    bookListT.add(parseBook(book))
+                    val genres = book.select("a[href^=/g/]")
+                    if (!genres.isEmpty()) {
+                        genreList = mutableListOf<String>()
+                        for (genre in genres) {
+                            genreList.add(genre.text())
+                        }
+                    }
+                    bookListT.add(parseBook(book, genreList))
                 }
                 bookList.postValue(bookListT)
                 state.postValue(BookListState.ShowState)
             }
         } catch (e: IOException) {
-            Log.e(TAG, "Error: ${e.message}")
+            state.postValue(BookListState.ErrorState(e.localizedMessage))
         }
     }
 }

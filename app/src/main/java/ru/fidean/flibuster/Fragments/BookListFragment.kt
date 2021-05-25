@@ -1,4 +1,4 @@
-package ru.fidean.flibuster
+package ru.fidean.flibuster.Fragments
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -13,6 +13,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.book_fragment.*
 import kotlinx.android.synthetic.main.book_list_fragment.*
+import ru.fidean.flibuster.BookListRecyclerAdapter
+import ru.fidean.flibuster.R
+import ru.fidean.flibuster.ViewModels.BookListState
+import ru.fidean.flibuster.ViewModels.BookListViewModel
 
 private const val TAG = "BookListFragmentTAG"
 
@@ -35,6 +39,7 @@ class BookListFragment : Fragment() {
             when (it) {
                 is BookListState.LoadingState -> {
                     Log.d(TAG,args.title)
+
                     viewModel.parse(
                         args.title,
                         args.ganre,

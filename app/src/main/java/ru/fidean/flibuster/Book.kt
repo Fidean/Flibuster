@@ -13,12 +13,17 @@ data class Book(
     var title: String,
     var autor: String,
     var anotation: String,
-    var series: String
+    var series: String,
+    var comments: List<Comment>?,
+    var genre: List<String>
 )
 
-data class BookList(
-    var bookList : List<Book>
+data class Comment(
+    var autor: String,
+    var text:String
 )
+
+
 
 
 

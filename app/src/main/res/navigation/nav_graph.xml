@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/bookFragment"
-        android:name="ru.fidean.flibuster.BookFragment"
-        android:label="book_fragment"
+        android:name="ru.fidean.flibuster.Fragments.BookFragment"
+        android:label="Флибустьер"
         tools:layout="@layout/book_fragment" >
         <argument
             android:name="bookID"
@@ -16,15 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/bookListFragment"
-        android:name="ru.fidean.flibuster.BookListFragment"
-        android:label="book_list_fragment"
+        android:name="ru.fidean.flibuster.Fragments.BookListFragment"
+        android:label="Флибустьер"
         tools:layout="@layout/book_list_fragment" >
         <action
             android:id="@+id/action_bookListFragment_to_bookFragment"
             app:destination="@id/bookFragment" />
-        <action
-            android:id="@+id/action_bookListFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
         <argument
             android:name="title"
             app:argType="string"
@@ -72,11 +69,20 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ru.fidean.flibuster.SearchFragment"
-        android:label="search_fragment"
+        android:name="ru.fidean.flibuster.Fragments.SearchFragment"
+        android:label="Флибустьер"
         tools:layout="@layout/search_fragment" >
         <action
             android:id="@+id/action_searchFragment_to_bookListFragment"
+            app:destination="@id/bookListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ru.fidean.flibuster.Fragments.LoginFragment"
+        android:label="Флибустьер"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_bookListFragment"
             app:destination="@id/bookListFragment" />
     </fragment>
 </navigation>

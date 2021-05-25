@@ -1,16 +1,16 @@
 package ru.fidean.flibuster
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import ru.fidean.flibuster.Fragments.BookListFragment
+import ru.fidean.flibuster.Fragments.BookListFragmentDirections
 
-private const val TAG = "BookListRecyclerAdapterTAG"
+private const val TAG = "RecyclerAdapterTAG"
 
 class BookListRecyclerAdapter(var list: List<Book>, var fragment: BookListFragment) :
     RecyclerView.Adapter<BookListRecyclerAdapter.MyViewHolder>() {
@@ -18,11 +18,19 @@ class BookListRecyclerAdapter(var list: List<Book>, var fragment: BookListFragme
         val autor: TextView
         val title: TextView
         val series: TextView
+        val genres: TextView
+        val autorText: TextView
+        val seriesText: TextView
+        val genresText: TextView
 
         init {
             autor = itemView.findViewById(R.id.autor)
             title = itemView.findViewById(R.id.title)
             series = itemView.findViewById(R.id.series)
+            genres = itemView.findViewById(R.id.genres)
+            autorText = itemView.findViewById(R.id.autorText)
+            seriesText = itemView.findViewById(R.id.seriesText)
+            genresText = itemView.findViewById(R.id.genresText)
         }
     }
 
@@ -35,10 +43,22 @@ class BookListRecyclerAdapter(var list: List<Book>, var fragment: BookListFragme
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.title.text = list[position].title
-        holder.autor.text = list[position].autor
-        holder.series.text = list[position].series
+        if (list[position].autor.isEmpty()) {
+            holder.autorText.visibility = View.GONE
+            holder.autor.visibility = View.GONE
+        } else {
+            holder.autor.text = list[position].autor
+        }
+        if (list[position].series.isEmpty()) {
+            holder.seriesText.visibility = View.GONE
+            holder.series.visibility = View.GONE
+        } else {
+            holder.series.text = list[position].series
+        }
+        holder.genres.text = list[position].genre.joinToString()
+
         holder.itemView.setOnClickListener {
-            Log.d(TAG,list[position].id.toString())
+            Log.d(TAG, list[position].id.toString())
             val action =
                 BookListFragmentDirections.actionBookListFragmentToBookFragment(list[position].id)
             findNavController(fragment).navigate(action)
